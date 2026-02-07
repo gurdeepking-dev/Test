@@ -104,6 +104,13 @@ const UserView: React.FC<UserViewProps> = ({
           analytics.track('Lead', { method: 'upload' });
         }
         storageService.logActivity('photo_uploaded', { size: file.size, type: file.type });
+
+        // Auto-generate styles that are marked for it
+        styles.forEach(s => {
+          if (s.autoGenerate) {
+            handleGenerate(s, base64);
+          }
+        });
       };
       reader.readAsDataURL(file);
     }

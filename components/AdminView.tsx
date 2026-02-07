@@ -17,7 +17,15 @@ const AdminView: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
-  const [styleForm, setStyleForm] = useState({ id: '', name: '', prompt: '', description: '', image: '' });
+  const [styleForm, setStyleForm] = useState({ 
+    id: '', 
+    name: '', 
+    prompt: '', 
+    description: '', 
+    image: '', 
+    autoGenerate: false,
+    displayOrder: 0
+  });
   const [keyForm, setKeyForm] = useState({ label: '', key: '' });
   const [securityForm, setSecurityForm] = useState({ newUsername: '', currentPassword: '', newPassword: '' });
   const [couponForm, setCouponForm] = useState({ code: '', type: 'percentage' as 'percentage' | 'fixed', value: 0 });
@@ -105,13 +113,15 @@ const AdminView: React.FC = () => {
       name: styleForm.name,
       prompt: styleForm.prompt,
       description: styleForm.description,
-      imageUrl: styleForm.image
+      imageUrl: styleForm.image,
+      autoGenerate: styleForm.autoGenerate,
+      displayOrder: styleForm.displayOrder
     };
 
     try {
       await storageService.saveStyle(newStyle);
       await loadData();
-      setStyleForm({ id: '', name: '', prompt: '', description: '', image: '' });
+      setStyleForm({ id: '', name: '', prompt: '', description: '', image: '', autoGenerate: false, displayOrder: 0 });
       showNotification('Style Template Saved');
     } catch (err) {
       alert("Failed to save style.");
@@ -327,6 +337,30 @@ const AdminView: React.FC = () => {
                 className="w-full px-5 py-3 rounded-2xl bg-slate-50 border-none outline-none focus:ring-2 focus:ring-rose-500 h-32 resize-none font-medium text-sm"
                 placeholder="AI Prompt"
               />
+              <div className="grid grid-cols-2 gap-3">
+                 <div className="space-y-1">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Order</label>
+                    <input 
+                      type="number" 
+                      value={styleForm.displayOrder}
+                      onChange={e => setStyleForm({...styleForm, displayOrder: parseInt(e.target.value) || 0})}
+                      className="w-full px-5 py-3 rounded-2xl bg-slate-50 border-none outline-none focus:ring-2 focus:ring-rose-500 font-bold"
+                      placeholder="0"
+                    />
+                 </div>
+                 <div className="flex flex-col justify-end gap-1 mb-1">
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="checkbox" 
+                        id="auto-gen-check" 
+                        checked={styleForm.autoGenerate}
+                        onChange={e => setStyleForm({...styleForm, autoGenerate: e.target.checked})}
+                        className="w-5 h-5 accent-rose-500 cursor-pointer"
+                      />
+                      <label htmlFor="auto-gen-check" className="text-[9px] font-black text-slate-600 cursor-pointer uppercase tracking-tighter">Auto-Gen</label>
+                    </div>
+                 </div>
+              </div>
               <input type="file" onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
@@ -352,12 +386,20 @@ const AdminView: React.FC = () => {
           </div>
           <div className="lg:col-span-8 grid sm:grid-cols-2 gap-4">
             {styles.map(s => (
-              <div key={s.id} className="bg-white p-5 rounded-[2rem] border border-slate-100 flex gap-4 hover:shadow-md transition-shadow">
+              <div key={s.id} className="bg-white p-5 rounded-[2rem] border border-slate-100 flex gap-4 hover:shadow-md transition-shadow relative">
+                <div className="absolute top-4 right-4 flex gap-1">
+                  {s.autoGenerate && (
+                    <span className="px-2 py-0.5 bg-rose-50 text-rose-500 text-[8px] font-black uppercase tracking-widest rounded-md border border-rose-100">Auto</span>
+                  )}
+                  <span className="px-2 py-0.5 bg-slate-50 text-slate-400 text-[8px] font-black uppercase tracking-widest rounded-md border border-slate-100">Pos: {s.displayOrder || 0}</span>
+                </div>
                 <img src={s.imageUrl} className="w-20 h-20 rounded-2xl object-cover shadow-sm" alt={s.name} />
                 <div className="flex-grow min-w-0">
-                  <h4 className="font-bold text-slate-800 truncate">{s.name}</h4>
+                  <div className="flex items-start justify-between">
+                    <h4 className="font-bold text-slate-800 truncate pr-16">{s.name}</h4>
+                  </div>
                   <div className="flex gap-4 mt-3">
-                    <button onClick={() => setStyleForm({ id: s.id, name: s.name, prompt: s.prompt, description: s.description, image: s.imageUrl })} className="text-[10px] font-black text-rose-600 uppercase tracking-widest">Edit</button>
+                    <button onClick={() => setStyleForm({ id: s.id, name: s.name, prompt: s.prompt, description: s.description, image: s.imageUrl, autoGenerate: !!s.autoGenerate, displayOrder: s.displayOrder || 0 })} className="text-[10px] font-black text-rose-600 uppercase tracking-widest">Edit</button>
                     <button onClick={() => handleDeleteStyle(s.id)} className="text-[10px] font-black text-red-400 uppercase tracking-widest">Delete</button>
                   </div>
                 </div>

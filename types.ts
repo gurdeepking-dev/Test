@@ -5,6 +5,8 @@ export interface StyleTemplate {
   imageUrl: string;
   prompt: string;
   description: string;
+  autoGenerate?: boolean;
+  displayOrder?: number;
   created_at?: string;
 }
 
