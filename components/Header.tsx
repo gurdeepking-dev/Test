@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-white/80 backdrop-blur-xl border-b border-rose-100 sticky top-0 z-50">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => handleNav('home')}>
+        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => handleNav('valentine')}>
           <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
              <div className="absolute inset-0 bg-rose-500 rounded-full rotate-12 group-hover:scale-110 transition-all duration-500 shadow-xl opacity-20"></div>
              <div className="absolute inset-0 bg-gradient-to-tr from-rose-500 to-pink-500 rounded-xl sm:rounded-2xl rotate-6 group-hover:rotate-12 transition-all duration-500 shadow-lg"></div>
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
             <h1 className="text-lg sm:text-2xl font-black bg-gradient-to-br from-rose-600 via-rose-500 to-pink-400 bg-clip-text text-transparent leading-none tracking-tight serif italic">
               chatgpt digital store
             </h1>
-            <p className="text-[10px] sm:text-[11px] font-black text-rose-500 uppercase tracking-[0.1em] mt-1">Valentine Edition ❤️</p>
+            <p className="text-[10px] sm:text-[11px] font-black text-rose-500 uppercase tracking-[0.1em] mt-1">Art & Video Studio ✨</p>
           </div>
         </div>
 
@@ -80,13 +80,24 @@ const Header: React.FC<HeaderProps> = ({
             </button>
 
             {isMenuOpen && (
-              <div className="absolute right-0 mt-4 w-48 sm:w-56 bg-white rounded-2xl sm:rounded-[2rem] shadow-2xl border border-rose-100 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300">
-                <div className="p-2 sm:p-3 space-y-0.5 sm:space-y-1">
-                  <button onClick={() => handleNav('home')} className={`w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all ${currentView === 'home' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>Home</button>
-                  <button onClick={() => handleNav('about')} className={`w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all ${currentView === 'about' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>Who We Are</button>
-                  <button onClick={() => handleNav('contact')} className={`w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all ${currentView === 'contact' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>Need Help?</button>
-                  <div className="h-px bg-rose-50 mx-4 sm:mx-5 my-1.5 sm:my-2" />
-                  <button onClick={() => handleNav('admin')} className={`w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all ${currentView === 'admin' ? 'bg-rose-600 text-white shadow-lg' : 'text-slate-600 hover:bg-rose-50'}`}>Admin Panel</button>
+              <div className="absolute right-0 mt-4 w-64 bg-white rounded-[2.5rem] shadow-2xl border border-rose-100 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300">
+                <div className="p-3 space-y-1">
+                  <div className="px-5 py-2 mb-2 border-b border-rose-50">
+                    <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Main Studios</p>
+                  </div>
+                  <button onClick={() => handleNav('valentine')} className={`w-full text-left px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wide transition-all ${currentView === 'valentine' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>💖 Valentine Special</button>
+                  <button onClick={() => handleNav('video')} className={`w-full text-left px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wide transition-all ${currentView === 'video' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>🎬 AI Video Studio</button>
+                  <button onClick={() => handleNav('photo')} className={`w-full text-left px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wide transition-all ${currentView === 'photo' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>🖼️ Photo Enhancer</button>
+                  <button onClick={() => handleNav('aitools')} className={`w-full text-left px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wide transition-all ${currentView === 'aitools' ? 'bg-rose-50 text-rose-600' : 'text-slate-600 hover:bg-rose-50'}`}>🛠️ All AI Tools</button>
+                  
+                  <div className="h-px bg-rose-50 mx-5 my-2" />
+                  <div className="px-5 py-2">
+                    <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Information</p>
+                  </div>
+                  <button onClick={() => handleNav('about')} className="w-full text-left px-5 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-rose-50">Who We Are</button>
+                  <button onClick={() => handleNav('contact')} className="w-full text-left px-5 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-rose-50">Need Help?</button>
+                  <div className="h-px bg-rose-50 mx-5 my-2" />
+                  <button onClick={() => handleNav('admin')} className={`w-full text-left px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${currentView === 'admin' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-600 hover:bg-rose-50'}`}>Admin Panel</button>
                 </div>
               </div>
             )}
